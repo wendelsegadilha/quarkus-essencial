@@ -2,6 +2,7 @@ package br.com.wendelsegadilha.resource;
 
 import br.com.wendelsegadilha.entity.Endereco;
 import br.com.wendelsegadilha.service.http.ViaCepHttpService;
+import io.smallrye.common.annotation.NonBlocking;
 import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -19,6 +20,7 @@ public class EnderecoResource {
     ViaCepHttpService viaCepHttpService;
 
     @GET
+    @NonBlocking
     @Path("/{cep}/consultar")
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<RestResponse<Endereco>> getEndereco(@PathParam("cep") String cep) {

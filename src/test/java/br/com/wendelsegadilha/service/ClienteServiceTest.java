@@ -4,6 +4,7 @@ import br.com.wendelsegadilha.entity.Cliente;
 import br.com.wendelsegadilha.repository.ClienteRepository;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
+import io.vertx.core.Vertx;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -20,8 +21,12 @@ public class ClienteServiceTest {
     @Test
     public void deveCadastrarCliente() {
         Cliente cliente = criarCliente();
-        clienteService.salvar(cliente);
-        Mockito.verify(clienteRepository).persist(cliente);
+
+        Vertx.vertx().runOnContext(r -> {
+            clienteService.salvar(cliente).await().indefinitely();
+            Mockito.verify(clienteRepository).persist(cliente);
+        });
+
     }
 
     private Cliente criarCliente() {

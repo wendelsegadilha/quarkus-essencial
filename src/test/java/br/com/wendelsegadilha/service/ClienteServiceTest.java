@@ -21,7 +21,6 @@ public class ClienteServiceTest {
     @Test
     public void deveCadastrarCliente() {
         Cliente cliente = criarCliente();
-
         Vertx.vertx().runOnContext(r -> {
             clienteService.salvar(cliente).await().indefinitely();
             Mockito.verify(clienteRepository).persist(cliente);

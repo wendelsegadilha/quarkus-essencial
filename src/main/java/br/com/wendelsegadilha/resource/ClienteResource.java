@@ -3,6 +3,7 @@ package br.com.wendelsegadilha.resource;
 import br.com.wendelsegadilha.entity.Cliente;
 import br.com.wendelsegadilha.service.ClienteService;
 import io.smallrye.common.annotation.NonBlocking;
+import io.smallrye.faulttolerance.api.RateLimit;
 import io.smallrye.mutiny.Uni;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -40,6 +41,7 @@ public class ClienteResource {
     }
 
     @GET
+    @RateLimit(value = 5, window = 10)
     @Transactional
     @NonBlocking
     public Uni<RestResponse<List<Cliente>>> buscarTodos() {
